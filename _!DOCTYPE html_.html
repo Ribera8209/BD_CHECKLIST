@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Mantenimiento | Panchos Deli Market 🚗🔧</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .logo-img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .status-select {
+            display: flex;
+            gap: 10px;
+        }
+
+        .status-option {
+            flex: 1;
+            text-align: center;
+        }
+
+        .status-option input[type="radio"] {
+            display: none;
+        }
+
+        .status-option label {
+            display: block;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #f5f5f5;
+            transition: all 0.3s;
+        }
+
+        .status-option input[type="radio"]:checked + label {
+            color: white;
+            font-weight: bold;
+        }
+
+        .status-option input[type="radio"][value="Bueno"]:checked + label {
+            background-color: var(--success);
+        }
+
+        .status-option input[type="radio"][value="Malo"]:checked + label {
+            background-color: var(--danger);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .grid-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .photo-upload {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .photo-upload:hover {
+            border-color: var(--secondary);
+            background-color: #fef2f2;
+        }
+
+        .photo-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .photo-thumbnail {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        .employee-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .emoji {
+            font-size: 1.2em;
+        }
+
+        .photo-container {
+            position: relative;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .delete-photo {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .employee-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.ibb.co/JWd2RW4R/panchos-logo.png" 
+                 alt="Panchos Deli Market Logo" 
+                 class="logo-img"
+                 width="200"
+                 height="200">
+            <h1>🚗 Registro de Mantenimiento de Vehículos 🔧</h1>
+        </div>
+
+        <form id="maintenanceForm">
+            <!-- Información básica del vehículo -->
+            <div class="card">
+                <h2 class="card-title">📋 Información del Vehículo</h2>
+                <div class="grid-container">
+                    <div class="form-group">
+                        <label for="vehicleType">🚘 Tipo de Vehículo</label>
+                        <select id="vehicleType" name="vehicleType" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="Van">🚐 Van</option>
+                            <option value="Tornado">🌪️ Tornado</option>
+                            <option value="Nissan">🔷 Nissan</option>
+                            <option value="Isuzu">🚛 Isuzu</option>
+                            <option value="Avanza">🚙 Avanza</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="plateNumber">🔢 Placa/Número</label>
+                        <input type="text" id="plateNumber" name="plateNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">📅 Fecha</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mileage">🛣️ Kilometraje</label>
+                        <input type="number" id="mileage" name="mileage" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información del conductor -->
+            <div class="card">
+                <h2 class="card-title">👤 Información del Conductor</h2>
+                <div class="employee-info">
+                    <div class="form-group">
+                        <label for="driverName">👨‍💼 Nombre Completo</label>
+                        <input type="text" id="driverName" name="driverName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="driverPosition">💼 Puesto</label>
+                        <input type="text" id="driverPosition" name="driverPosition" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inspectionTime">⏰ Hora de Captura</label>
+                        <input type="time" id="inspectionTime" name="inspectionTime" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Luces -->
+            <div class="card">
+                <h2 class="card-title">💡 LUCES</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <label>🔦 Luz baja</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="lowBeam" id="lowBeamGood" value="Bueno">
+                                <label for="lowBeamGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="lowBeam" id="lowBeamBad" value="Malo">
+                                <label for="lowBeamBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="lowBeamNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>🔙 Luz reversa</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="reverseLight" id="reverseLightGood" value="Bueno">
+                                <label for="reverseLightGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="reverseLight" id="reverseLightBad" value="Malo">
+                                <label for="reverseLightBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="reverseLightNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>🛑 Luz freno</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="brakeLight" id="brakeLightGood" value="Bueno">
+                                <label for="brakeLightGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="brakeLight" id="brakeLightBad" value="Malo">
+                                <label for="brakeLightBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="brakeLightNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>↔️ Intermitentes</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="turnSignals" id="turnSignalsGood" value="Bueno">
+                                <label for="turnSignalsGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="turnSignals" id="turnSignalsBad" value="Malo">
+                                <label for="turnSignalsBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="turnSignalsNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>🔴 Luces traseras</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="rearLights" id="rearLightsGood" value="Bueno">
+                                <label for="rearLightsGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="rearLights" id="rearLightsBad" value="Malo">
+                                <label for="rearLightsBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="rearLightsNotes" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Accesorios -->
+            <div class="card">
+                <h2 class="card-title">🧰 ACCESORIOS</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <label>🧯 Extintor</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="extinguisher" id="extinguisherGood" value="Bueno">
+                                <label for="extinguisherGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="extinguisher" id="extinguisherBad" value="Malo">
+                                <label for="extinguisherBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="extinguisherNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>⚠️ Triángulos</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="triangles" id="trianglesGood" value="Bueno">
+                                <label for="trianglesGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="triangles" id="trianglesBad" value="Malo">
+                                <label for="trianglesBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="trianglesNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>🦺 Cinturón de seguridad</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="seatBelt" id="seatBeltGood" value="Bueno">
+                                <label for="seatBeltGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="seatBelt" id="seatBeltBad" value="Malo">
+                                <label for="seatBeltBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="seatBeltNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>🚪 Chapas de puerta</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="doorPlates" id="doorPlatesGood" value="Bueno">
+                                <label for="doorPlatesGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="doorPlates" id="doorPlatesBad" value="Malo">
+                                <label for="doorPlatesBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="doorPlatesNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>🪟 Parabrisas</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="windshield" id="windshieldGood" value="Bueno">
+                                <label for="windshieldGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="windshield" id="windshieldBad" value="Malo">
+                                <label for="windshieldBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="windshieldNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>🔋 Batería</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="battery" id="batteryGood" value="Bueno">
+                                <label for="batteryGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="battery" id="batteryBad" value="Malo">
+                                <label for="batteryBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="batteryNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>💧 Nivel de agua</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="waterLevel" id="waterLevelGood" value="Bueno">
+                                <label for="waterLevelGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="waterLevel" id="waterLevelBad" value="Malo">
+                                <label for="waterLevelBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="waterLevelNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>🛢️ Nivel de aceite</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="oilLevel" id="oilLevelGood" value="Bueno">
+                                <label for="oilLevelGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="oilLevel" id="oilLevelBad" value="Malo">
+                                <label for="oilLevelBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="oilLevelNotes" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Neumáticos -->
+            <div class="card">
+                <h2 class="card-title">🛞 NEUMÁTICOS</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <label>⬆️ Delanteros</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="frontTires" id="frontTiresGood" value="Bueno">
+                                <label for="frontTiresGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="frontTires" id="frontTiresBad" value="Malo">
+                                <label for="frontTiresBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="frontTiresNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>⬇️ Traseros</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="rearTires" id="rearTiresGood" value="Bueno">
+                                <label for="rearTiresGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="rearTires" id="rearTiresBad" value="Malo">
+                                <label for="rearTiresBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="rearTiresNotes" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="grid-item">
+                        <label>⚙️ Alineado y Balanceado</label>
+                        <div class="status-select">
+                            <div class="status-option">
+                                <input type="radio" name="alignment" id="alignmentGood" value="Bueno">
+                                <label for="alignmentGood">👍 Bueno</label>
+                            </div>
+                            <div class="status-option">
+                                <input type="radio" name="alignment" id="alignmentBad" value="Malo">
+                                <label for="alignmentBad">👎 Malo</label>
+                            </div>
+                        </div>
+                        <textarea placeholder="📝 Observaciones" name="alignmentNotes" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Carrocería -->
+            <div class="card">
+                <h2 class="card-title">🚘 CARROCERÍA</h2>
+                <div class="form-group">
+                    <label for="bodyworkObservations">📝 Observaciones de Carrocería</label>
+                    <textarea id="bodyworkObservations" name="bodyworkObservations" placeholder="Describa cualquier daño o observación sobre la carrocería del vehículo" rows="4"></textarea>
+                </div>
+            </div>
+
+            <!-- Sección de Fotos -->
+            <div class="card">
+                <h2 class="card-title">📸 FOTOS DEL VEHÍCULO</h2>
+                <div class="form-group">
+                    <div class="photo-upload" id="photoUpload">
+                        <p>📤 Haz clic para cargar fotos del vehículo</p>
+                        <input type="file" id="photoInput" name="photoInput" accept="image/*" multiple style="display: none;">
+                    </div>
+                    <div class="photo-preview" id="photoPreview"></div>
+                </div>
+            </div>
+
+            <!-- Botón de envío -->
+            <div class="card">
+                <button type="submit" class="btn btn-primary btn-block">💾 Guardar Registro de Mantenimiento</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar la fecha actual por defecto
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('date').value = today;
+            
+            // Configurar la hora actual por defecto
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('inspectionTime').value = `${hours}:${minutes}`;
+            
+            // Manejar la subida de fotos
+            const photoUpload = document.getElementById('photoUpload');
+            const photoInput = document.getElementById('photoInput');
+            const photoPreview = document.getElementById('photoPreview');
+            
+            photoUpload.addEventListener('click', function() {
+                photoInput.click();
+            });
+            
+            photoInput.addEventListener('change', function(e) {
+                const files = e.target.files;
+                
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    
+                    if (!file.type.match('image.*')) continue;
+                    
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.classList.add('photo-thumbnail');
+                        
+                        // Crear contenedor para la miniatura y botón de eliminar
+                        const container = document.createElement('div');
+                        container.classList.add('photo-container');
+                        
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.innerHTML = '🗑️';
+                        deleteBtn.classList.add('delete-photo');
+                        
+                        deleteBtn.addEventListener('click', function() {
+                            container.remove();
+                        });
+                        
+                        container.appendChild(img);
+                        container.appendChild(deleteBtn);
+                        photoPreview.appendChild(container);
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Manejar el envío del formulario a Google Sheets
+            document.getElementById('maintenanceForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Mostrar estado de carga
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '⏳ Enviando datos...';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Recopilar todos los datos del formulario
+                    const formData = new FormData(this);
+                    const data = {};
+                    
+                    // Convertir FormData a objeto
+                    formData.forEach((value, key) => {
+                        // Solo incluir campos con valores
+                        if (value !== '' && value !== null && value !== undefined) {
+                            data[key] = value;
+                        }
+                    });
+                    
+                    // Agregar datos de radio buttons seleccionados
+                    document.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+                        data[radio.name] = radio.value;
+                    });
+                    
+                    // Agregar datos de textareas
+                    document.querySelectorAll('textarea').forEach(textarea => {
+                        if (textarea.value.trim() !== '') {
+                            data[textarea.name] = textarea.value;
+                        }
+                    });
+                    
+                    // URL de tu Web App de Google Apps Script
+                    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxwDo8_auxJrG8hSRVFy0H1nQILIKzelwTfcQ9rv1P5m1nhkqKv_2eENuN1rB0A7Iv2/exec';
+                    
+                    // Enviar datos a Google Sheets
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('✅ Registro guardado exitosamente en Google Sheets');
+                        this.reset();
+                        document.getElementById('photoPreview').innerHTML = '';
+                    } else {
+                        throw new Error(result.message || 'Error al guardar los datos');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert(`❌ Error al enviar datos: ${error.message}`);
+                } finally {
+                    // Restaurar botón
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
